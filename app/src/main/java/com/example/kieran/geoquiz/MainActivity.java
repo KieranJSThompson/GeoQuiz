@@ -97,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //if the current question is the last of the questions it goes to the finished page
-                if(mCurrentIndex == mQuestionBank.length){
+                if(mCurrentIndex == (mQuestionBank.length - 1)){
                     myIntent = new Intent(MainActivity.this, FinishedActivity.class);
                     MainActivity.this.startActivity(myIntent);
                 }
