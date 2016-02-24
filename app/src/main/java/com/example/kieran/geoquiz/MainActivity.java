@@ -1,5 +1,6 @@
 package com.example.kieran.geoquiz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -9,12 +10,17 @@ import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 
+    public static int mScore;
+
     private Button trueButton;
     private Button falseButton;
     private Button nextButton;
-
+    private Button previousButton;
 
     private int mCurrentIndex = 0;
+
+
+    private Intent myIntent;
 
 
 
@@ -51,7 +57,13 @@ public class MainActivity extends ActionBarActivity {
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
+    //updates score if the answer is correct!
+    private void updateScore(){
 
+        if(mQuestionBank[mCurrentIndex].ismTrueQuestion() == true){
+            mScore++;
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +75,10 @@ public class MainActivity extends ActionBarActivity {
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAnswer(true);//
+                checkAnswer(true);
+                updateScore();
             }
+
         });
 
         //creates action listener for falseButton
@@ -73,6 +87,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 checkAnswer(false);
+                updateScore();
             }
         });
 
@@ -81,8 +96,31 @@ public class MainActivity extends ActionBarActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-                updateQuestion();
+                //if the current question is the last of the questions it goes to the finished page
+                if(mCurrentIndex == mQuestionBank.length){
+                    myIntent = new Intent(MainActivity.this, FinishedActivity.class);
+                    MainActivity.this.startActivity(myIntent);
+                }
+                else {
+                    mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                    updateQuestion();
+                }
+            }
+        });
+        updateQuestion();
+
+        previousButton = (Button)findViewById(R.id.previous_button);
+        previousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCurrentIndex == 0) {
+                    Toast.makeText(MainActivity.this, "This is the first question", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    mCurrentIndex = (mCurrentIndex - 1) % mQuestionBank.length;
+
+                    updateQuestion();
+                }
             }
         });
         updateQuestion();
