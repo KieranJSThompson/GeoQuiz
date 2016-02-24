@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
     //Array of Questions created in the strings.xml file
     private TrueFalse[] mQuestionBank = new TrueFalse[]{
             new TrueFalse(R.string.question_ocean, true),
-            new TrueFalse(R.string.question_mideast, false),
+            new TrueFalse(R.string.question_mideast, true),
             new TrueFalse(R.string.question_africa, false),
             new TrueFalse(R.string.question_americas, true),
             new TrueFalse(R.string.question_asia, true)
